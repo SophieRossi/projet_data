@@ -1,0 +1,5 @@
+,Accuracy,Recall,F-score
+Avant prétraitement,0.745,0.151,0.196
+Pretraitement 1,0.795,0.328,0.399
+Pretraitement 2,0.788,0.349,0.405
+Pretraitement 3,0.788,0.333,0.394
