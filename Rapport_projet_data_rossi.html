@@ -13880,24 +13880,19 @@ De plus, les <strong>variables continues ont une grande amplitude</strong>: il f
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><font color = green> L’algorithme du plus proche voisin (kNN avec k=1) prédit l’étiquette d’une observation comme celle de son point le plus proche dans le jeu d’entraînement.</p>
-<p>— Quelle est la classe des hypothèses?</p>
-<p>— S’agit-il d’un modèle paramétrique ou non?</p>
-<p>— Peut-on écrire cet algorithme sous la forme de la minimisation d’unrisque empirique? Si oui,précisez la classe des hypothèses, la fonction de coût et la technique d’optimisation utilisée. Remarque : le point le plus proche d’un point du jeu d’entraînement est lui-même. &lt;/font&gt;</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>L’algorithme du plus proche voisin (kNN avec k=1) prédit l’étiquette d’une observation comme celle de son point le plus proche dans le jeu d’entraînement.</p>
 <ul>
-<li><p>Classe des hypothèses correspond à l'ensemble des fonctions qui pour chaque instance à prédire lui associe la classe de l'instance "d'entrainement" la plus proche, en termes de distance euclidienne</p>
+<li><p>La classe des hypothèses correspond à l'ensemble des fonctions qui pour chaque instance à prédire lui associe la classe de l'instance d'entrainement la plus proche, en termes de distance euclidienne.</p>
 </li>
 <li><p>L'algorithme du plus proche voisin n'est pas un modèle paramétrique car on ne sait pas écrire la fonction de décision comme une fonction des variables prédictives</p>
 </li>
-<li><p>Oui</p>
+<li><p>La minimisation du risque empirique s'effectue sur les données d'entrainement.</p>
+<ul>
+<li>Or le point le plus proche d'un jeu d'entrainement est lui-meme. La classe des hypothèses est donc l'ensemble des fonctions qui associent à chaque point (du jeu d'entrainement) son étiquette. On note $h$ une fonction appartenant à la classe des hypothèses.</li>
+<li>On est face à un problème de classification: on choisit donc, comme fonction de cout la fonction $L_{0/1}$ qui compte le nombre d'erreurs de classification. (On pourrait aussi utiliser l'entropie croisée).</li>
+<li>Pour un jeu d'entrainement $\mathbb{D} = \{ (x^1, y^1), ..., (x^n, y^n)\}$ où les $x^i$ sont les réalisations des variables et $y^i$ les étiquettes, le risque empirique est donc : $ \hat{R}(h) = \frac{1}{n}\sum_{i = 1}^{n} \mathbb{1}_{\{y^{i} \neq h(x^{i})\}}$</li>
+<li>La minimisation du risque empirique revient donc à chercher la fonction $h$ qui minimise $\hat{R}$. C'est un problème de minimisation convexe (qui peut se résoudre avec des méthodes classiques d'optimisation telle que des descentes de gradients).</li>
+</ul>
 </li>
 </ul>
 
@@ -14390,29 +14385,6 @@ De plus, les <strong>variables continues ont une grande amplitude</strong>: il f
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="S&#233;lection-de-mod&#232;le">S&#233;lection de mod&#232;le<a class="anchor-link" href="#S&#233;lection-de-mod&#232;le">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><font color = green></p>
-<ol>
-<li>Utilisez une validation croisée sur votre jeu d’entraînement(X_train, y_train)pour sélectionner les meilleurs hyperparamètres:</li>
-</ol>
-<p>— d’une approche des k plus proches voisins(hyperparamètre=valeurdek);</p>
-<p>— d’une régression logistique régularisée. Vous pouvez justifier le choix du type de régularisation soit par des arguments a priori, soit en considérant le type de régularisation comme un hyperparamètre. Dans les deux cas, la valeur du coefficient de régularisation est à choisir par validation croisée ;</p>
-<p>— [facultatif] d’une ou plusieurs autres approches de classification de votre choix (forêts aléatoires, SVM, etc.).</p>
-<ol>
-<li>Ré-entraînez ces méthodes (kNN avec k optimal; régression logistique avec votre choix de régularisation et votre choix de coefficient de régularisation ; etc.) sur votre jeu d’entraînement (X_train, y_train)et appliquez les modèles ainsi appris à votre jeu de test (X_test, y_test).</li>
-</ol>
-<p>Dans le rapport, incluez
-— Votre code;</p>
-<p>— Une ou plusieurs figures permettant de comparer les performances (selon la ou les mesures de performance de votre choix) des différentes approches, d’une part, en validation croisée, et d’autre part, sur votre jeu de test ;</p>
-<p>— Une analyse statistique : les prédictions (valeurs de la fonction de décision) que vous obtenez sur le jeu de test sont-elles significativement différentes entre les différents modèles ? Une des façons de répondre à cette question consiste à utiliser un test de comparaison de deux distributions conti- nues non-indépendantes tels que le test des rangs signés de Wilcoxon, ou Wilcoxon signed-rank test, implémenté dans scipy.stats.wilcoxon. Si vous comparez plus de deux modèles, n’oubliez pas d’utiliser une correction de tests d’hypothèses multiples.</p>
-<p>— Quelques phrases pour analyser ces résultats et en conclure quel modèle final choisir.
-&lt;/font&gt;</p>
-
 </div>
 </div>
 </div>
