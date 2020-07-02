@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>Rapport_projet_data_sophie</title>
+<title>Rapport_projet_data_rossi</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -15212,7 +15212,7 @@ Accuracy score: 0.8320355951056729
 
 <span class="c1"># private</span>
 <span class="n">df_private</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;credit_private.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="n">X_private</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X_private</span> <span class="o">=</span> <span class="n">df_private</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 
     </div>
@@ -15235,9 +15235,10 @@ Accuracy score: 0.8320355951056729
 
 <span class="n">dummy_encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">categories</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">handle_unknown</span> <span class="o">=</span> <span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 
-<span class="n">dummy_encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">[:,</span> <span class="n">c_features_idx</span><span class="p">])</span>
+<span class="n">dummy_encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_public</span><span class="p">[:,</span> <span class="n">c_features_idx</span><span class="p">])</span>
 <span class="n">X_public_onehot</span> <span class="o">=</span> <span class="n">dummy_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_public</span><span class="p">[:,</span> <span class="n">c_features_idx</span><span class="p">])</span>
 <span class="n">X_private_onehot</span> <span class="o">=</span> <span class="n">dummy_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_private</span><span class="p">[:,</span> <span class="n">c_features_idx</span><span class="p">])</span>
+
 
 <span class="c1"># encodage yeo-johnson sur les variables quantitatives</span>
 <span class="n">yeo_features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Credit_total&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;Montant_mois_1&quot;</span><span class="p">,</span> <span class="s2">&quot;Montant_mois_2&quot;</span><span class="p">,</span> <span class="s2">&quot;Montant_mois_3&quot;</span><span class="p">,</span> <span class="s2">&quot;Montant_mois_4&quot;</span><span class="p">,</span> 
@@ -15245,14 +15246,14 @@ Accuracy score: 0.8320355951056729
                        <span class="s2">&quot;Versement_mois_4&quot;</span><span class="p">,</span> <span class="s2">&quot;Versement_mois_5&quot;</span><span class="p">,</span> <span class="s2">&quot;Versement_mois_6&quot;</span><span class="p">]</span>
 <span class="n">yeo_features_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">features</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">feat_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">feat_name</span> <span class="ow">in</span> <span class="n">yeo_features</span><span class="p">]</span>
 <span class="n">boxcox_scaler</span> <span class="o">=</span> <span class="n">PowerTransformer</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;yeo-johnson&#39;</span><span class="p">)</span>
-<span class="n">boxcox_scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_public</span><span class="p">[:,</span><span class="n">yeo_features_idx</span><span class="p">])</span>
 
+<span class="n">boxcox_scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_public</span><span class="p">[:,</span><span class="n">yeo_features_idx</span><span class="p">])</span>
 <span class="n">X_public_yeo</span> <span class="o">=</span> <span class="n">boxcox_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_public</span><span class="p">[:,</span> <span class="n">yeo_features_idx</span><span class="p">])</span>
 <span class="n">X_private_yeo</span> <span class="o">=</span> <span class="n">boxcox_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_private</span><span class="p">[:,</span> <span class="n">yeo_features_idx</span><span class="p">])</span>
 
 <span class="c1"># Vecteurs prétraités</span>
 <span class="n">X_public_processed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">X_public_yeo</span><span class="p">,</span> <span class="n">X_public_onehot</span><span class="p">))</span>
-<span class="n">X_private_processed</span> <span class="o">=</span> <span class="n">X_public_processed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">X_public_yeo</span><span class="p">,</span> <span class="n">X_public_onehot</span><span class="p">))</span>
+<span class="n">X_private_processed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">X_private_yeo</span><span class="p">,</span> <span class="n">X_private_onehot</span><span class="p">))</span>
 </pre></div>
 
     </div>
